@@ -5,8 +5,7 @@ import Book from './Book'
 
 class FindBook extends Component {
 	state = {
-		books: [],
-		currentBooks: []
+		books: []
 	}
 
 	// search for a book
@@ -41,7 +40,7 @@ class FindBook extends Component {
 	}
 
   render() {
-		const { books, currentBooks } = this.state
+		const { books } = this.state
 
 		return (
 			<div className="search-books">
