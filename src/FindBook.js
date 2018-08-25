@@ -29,9 +29,14 @@ class FindBook extends Component {
 	}
 
 	changeShelf = (book, shelf) => {
+		const newBooks = []
 		BooksAPI.update(book, shelf)
 		.then(books => {
-			console.log(books)
+			Object.keys(books).forEach(shelf => {
+				const book = books[shelf].map(id => ({ id: id, shelf: shelf}))
+				newBooks.push(book)
+			})
+			return newBooks
 		})
 	}
 
