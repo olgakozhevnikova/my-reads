@@ -9,24 +9,24 @@ class FindBook extends Component {
 		currentBooks: []
 	}
 
-	// componentDidMount() {
-	// 	BooksAPI.getAll()
-	// 	.then(books => {
-	// 		// Get rid of all other properties except book id
-	// 		const booksId = books.map(book => ({ id: book.id,shelf: book.shelf }))
-	// 		this.setState({ currentBooks: booksId })
-	// 	})
-	// }
-
 	// search for a book
 	onSearch = (event) => {
 		const value = event.target.value
 
-		BooksAPI.search(value)
-		.then(books => {
-			this.setState({ books: books })
-			console.log(this.state)
-		})
+		if (value) {
+			BooksAPI.search(value)
+			.then(books => {
+				if(!books || books.hasOwnProperty('error')) {
+					this.setState({ books: [] })
+				} else {
+					this.setState({ books: books })
+				}
+			})
+		}
+		else {
+			this.setState( { books: [] })
+		}
+		
 	}
 
   render() {
