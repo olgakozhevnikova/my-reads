@@ -26,7 +26,13 @@ class FindBook extends Component {
 		else {
 			this.setState( { books: [] })
 		}
-		
+	}
+
+	changeShelf = (book, shelf) => {
+		BooksAPI.update(book, shelf)
+		.then(books => {
+			console.log(books)
+		})
 	}
 
   render() {
@@ -50,7 +56,9 @@ class FindBook extends Component {
 					<ol className="books-grid">
 						{books.map(book => (
 							<li key={book.id}>
-								<Book book={book}/>
+								<Book 
+									book={book}
+									onShelfChange={this.changeShelf}/>
 							</li>
 						))}
 					</ol>
