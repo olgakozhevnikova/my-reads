@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import * as BooksAPI from './BooksAPI'
-import PropTypes from 'prop-types'
+import Book from './Book'
 
 class FindBook extends Component {
 	state = {
@@ -47,12 +47,10 @@ class FindBook extends Component {
 					</div>
 				</div>
 				<div className="search-books-results">
-					<ol className="books-grid" data={books.title}>
+					<ol className="books-grid">
 						{books.map(book => (
 							<li key={book.id}>
-								<img src={book.imageLinks.smallThumbnail} alt={book.title}/>
-								<p>{book.title}</p>
-								<p>{book.authors}</p>
+								<Book book={book}/>
 							</li>
 						))}
 					</ol>
