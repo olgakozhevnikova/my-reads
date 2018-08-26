@@ -47,9 +47,7 @@ class App extends Component {
             read={this.state.read}
           />
         )}/>
-        <Route path="/search" render={() => (
-          <FindBook/>
-        )}/>
+        <Route path="/search" component={FindBook}/>
       </div>
     )
   }

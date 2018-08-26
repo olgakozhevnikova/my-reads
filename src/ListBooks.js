@@ -1,9 +1,21 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import Book from './Book'
-
+import * as BooksAPI from './BooksAPI'
 
 class ListBooks extends Component {
+	changeShelf = (book, shelf) => {
+		const newBooks = []
+		BooksAPI.update(book, shelf)
+		.then(books => {
+			Object.keys(books).forEach(shelf => {
+				const book = books[shelf].map(id => ({ id: id, shelf: shelf}))
+				newBooks.push(book)
+			})
+			return newBooks
+		})
+	}
+
 	showShelf(books, shelfTitle) {
 		return (
 			<div className="bookshelf">
@@ -12,7 +24,9 @@ class ListBooks extends Component {
 					<ol className="books-grid">
 						{books.map(book => (
 							<li key={book.id}>
-								<Book book={book}/>
+								<Book 
+									book={book}
+									onShelfChange={this.changeShelf}/>
 							</li>
 						))}
 					</ol>
@@ -22,8 +36,8 @@ class ListBooks extends Component {
 	}
 
   render() {
-		console.log(this.state)
 		const { currentlyReading, wantToRead, read } = this.props
+
 		return (
 			<div className="list-books">
 				<div className="list-books-title">
