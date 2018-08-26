@@ -19,6 +19,7 @@ class App extends Component {
 
   changeShelf = (book, selectedBook) => {
     const books = this.state.books
+    const shelf = book.target.value;
     selectedBook.shelf = book.target.value
     this.seteState({ books })
     

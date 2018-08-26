@@ -10,27 +10,14 @@ class ListBooks extends Component {
 		read: []
 	}
 
-	updateShelf(item) {
-		this.setState({ item })
-	}
-
 	showShelf(books, shelfTitle) {
 		return (
 			<div className="bookshelf">
 				<h2 className="bookshelf-title">{shelfTitle}</h2>
-				<div className="bookshelf-books">
-					<ol className="books-grid">
-						{books.map(book => (
-							<li key={book.id}>
-								<Book 
-									book={book}
-									onShelfChange={(shelves) => {
-										this.updateShelf(shelves)
-									}}/>
-							</li>
-						))}
-					</ol>
-				</div>
+				<Book
+					books={books}
+					changeShelf={this.props.changeShelf}
+				/>
 			</div>
 		)
 	}
