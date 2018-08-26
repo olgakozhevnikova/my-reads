@@ -1,19 +1,17 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import Book from './Book'
-import * as BooksAPI from './BooksAPI'
+import escapeRegExp from 'escape-string-regexp'
 
 class ListBooks extends Component {
-	changeShelf = (book, shelf) => {
-		const newBooks = []
-		BooksAPI.update(book, shelf)
-		.then(books => {
-			Object.keys(books).forEach(shelf => {
-				const book = books[shelf].map(id => ({ id: id, shelf: shelf}))
-				newBooks.push(book)
-			})
-			return newBooks
-		})
+	state = {
+		currentlyReading: [],
+		wantToRead: [],
+		read: []
+	}
+
+	updateShelf(item) {
+		this.setState({ item })
 	}
 
 	showShelf(books, shelfTitle) {
@@ -26,7 +24,9 @@ class ListBooks extends Component {
 							<li key={book.id}>
 								<Book 
 									book={book}
-									onShelfChange={this.changeShelf}/>
+									onShelfChange={(shelves) => {
+										this.updateShelf(shelves)
+									}}/>
 							</li>
 						))}
 					</ol>
@@ -35,8 +35,17 @@ class ListBooks extends Component {
 		)
 	}
 
-  render() {
-		const { currentlyReading, wantToRead, read } = this.props
+	render() {
+		const { books } = this.props
+
+		const matchCurrentlyReading = new RegExp(escapeRegExp('currentlyReading'));
+		let currentlyReading = books ? books.filter(book => matchCurrentlyReading.test(book.shelf)) : null;
+
+		const matchWantToRead = new RegExp(escapeRegExp('wantToRead'));
+		let wantToRead = books ? books.filter(book => matchWantToRead.test(book.shelf)) : null;
+
+		const matchRead = new RegExp(escapeRegExp('read'));
+		let read = books ? books.filter(book => matchRead.test(book.shelf)) : null;
 
 		return (
 			<div className="list-books">
