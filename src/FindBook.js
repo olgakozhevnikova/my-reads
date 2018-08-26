@@ -20,10 +20,13 @@ class FindBook extends Component {
 					this.setState({ searchedBooks: [] })
 				} else {
           books.map(book => {
+            if (!('imageLinks' in book)) {
+              book['imageLinks'] = {thumbnail: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjtHwSGWmOPJ5I7NHC-a7bJzUf4MnEDTDOP5_3ySSwxklK19PU'}
+            }
             book.shelf = this.addShelf(book)
             return book
           })
-					this.setState({ searchedBooks: books })
+          this.setState({ searchedBooks: books })
 				}
 			})
 		}
