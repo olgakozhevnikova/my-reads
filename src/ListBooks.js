@@ -1,38 +1,16 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import Book from './Book'
-import escapeRegExp from 'escape-string-regexp'
 
 class ListBooks extends Component {
-	state = {
-		currentlyReading: [],
-		wantToRead: [],
-		read: []
-	}
-
-	showShelf(books, shelfTitle) {
-		return (
-			<div className="bookshelf">
-				<h2 className="bookshelf-title">{shelfTitle}</h2>
-				<Book
-					books={books}
-					changeShelf={this.props.changeShelf}
-				/>
-			</div>
-		)
-	}
+	state = {}
 
 	render() {
 		const { books } = this.props
 
-		const matchCurrentlyReading = new RegExp(escapeRegExp('currentlyReading'));
-		let currentlyReading = books ? books.filter(book => matchCurrentlyReading.test(book.shelf)) : null;
-
-		const matchWantToRead = new RegExp(escapeRegExp('wantToRead'));
-		let wantToRead = books ? books.filter(book => matchWantToRead.test(book.shelf)) : null;
-
-		const matchRead = new RegExp(escapeRegExp('read'));
-		let read = books ? books.filter(book => matchRead.test(book.shelf)) : null;
+		const currentlyReading = books.filter(book => book.shelf === "currentlyReading")
+    const read = books.filter(book => book.shelf === "read")
+    const wantToRead = books.filter(book => book.shelf === "wantToRead")
 
 		return (
 			<div className="list-books">
@@ -41,9 +19,27 @@ class ListBooks extends Component {
 				</div>
 				<div className="list-books-content">
 					<div>
-						{this.showShelf(currentlyReading, 'Currently Reading')}
-						{this.showShelf(wantToRead, 'Want to read')}
-						{this.showShelf(read, 'Read')}
+						<div className="bookshelf">
+							<h2 className="bookshelf-title">Currently reading</h2>
+							<Book
+								filteredBooks={currentlyReading}
+								changeShelf={this.props.changeShelf}
+							/>
+						</div>
+						<div className="bookshelf">
+							<h2 className="bookshelf-title">Want to read</h2>
+							<Book
+								filteredBooks={wantToRead}
+								changeShelf={this.props.changeShelf}
+							/>
+						</div>
+						<div className="bookshelf">
+							<h2 className="bookshelf-title">Read</h2>
+							<Book
+								filteredBooks={read}
+								changeShelf={this.props.changeShelf}
+							/>
+						</div>
 					</div>
 				</div>
 				<div className="open-search">

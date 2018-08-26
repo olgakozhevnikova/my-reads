@@ -17,18 +17,20 @@ class App extends Component {
     })
   }
 
-  changeShelf = (book, selectedBook) => {
+  changeShelf = (e, selectedBook) => {
     const books = this.state.books
-    const shelf = book.target.value;
-    selectedBook.shelf = book.target.value
-    this.seteState({ books })
+    const shelf = e.target.value;
+    selectedBook.shelf = e.target.value
+    this.setState({ books })
     
-    BooksAPI.update(book, selectedBook)
-    this.setState(state => ({
-      books: state.books
-        .filter(e => e.id !== selectedBook.id)
-        .concat([selectedBook])
-    }));
+    BooksAPI.update(selectedBook, shelf)
+    .then(() => {
+      this.setState(state => ({
+        books: state.books
+          .filter(e => e.id !== selectedBook.id)
+          .concat([selectedBook])
+      }))
+    })
   }  
 
   render() {
