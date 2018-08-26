@@ -5,6 +5,18 @@ import Book from './Book'
 class ListBooks extends Component {
 	state = {}
 
+	showShelf(books, shelfTitle) {
+		return (
+			<div className="bookshelf">
+				<h2 className="bookshelf-title">{shelfTitle}</h2>
+				<Book
+					filteredBooks={books}
+					changeShelf={this.props.changeShelf}
+				/>
+			</div>
+		)
+	}
+
 	render() {
 		const { books } = this.props
 
@@ -19,27 +31,9 @@ class ListBooks extends Component {
 				</div>
 				<div className="list-books-content">
 					<div>
-						<div className="bookshelf">
-							<h2 className="bookshelf-title">Currently reading</h2>
-							<Book
-								filteredBooks={currentlyReading}
-								changeShelf={this.props.changeShelf}
-							/>
-						</div>
-						<div className="bookshelf">
-							<h2 className="bookshelf-title">Want to read</h2>
-							<Book
-								filteredBooks={wantToRead}
-								changeShelf={this.props.changeShelf}
-							/>
-						</div>
-						<div className="bookshelf">
-							<h2 className="bookshelf-title">Read</h2>
-							<Book
-								filteredBooks={read}
-								changeShelf={this.props.changeShelf}
-							/>
-						</div>
+						{this.showShelf(currentlyReading, 'Currently Reading')}
+						{this.showShelf(wantToRead, 'Want to read')}
+						{this.showShelf(read, 'Read')}
 					</div>
 				</div>
 				<div className="open-search">
